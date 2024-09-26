@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Registration Form</title>
+    <style>
+        /* CSS for styling the form */
+        body {
+            background-color: #f0f4f8;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .form-group input.error-input {
+            border-color: red;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .success-message {
+            display: none;
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px; /* Shortened size */
+            color: grey; /* Changed color to grey */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Registration Form</h2>
+        <form id="registrationForm" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name">
+                <span class="error" id="firstNameError">First name is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter your last name">
+                <span class="error" id="lastNameError">Last name is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="university">University</label>
+                <select id="university" name="university">
+                    <option value="">Select University</option>
+                    <option value="RMK Engineering College">RMK Engineering College</option>
+                    <option value="RMD Engineering College">RMD Engineering College</option>
+                    <option value="RMK College of Engineering and Technology">RMK College of Engineering and Technology</option>
+                </select>
+                <span class="error" id="universityError">University is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department">
+                    <option value="">Select Department</option>
+                    <option value="CSE">CSE</option>
+                    <option value="CSBS">CSBS</option>
+                    <option value="ADS">ADS</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="MECHANICAL">MECHANICAL</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="EIE">EIE</option>
+                    <option value="IT">IT</option>
+                </select>
+                <span class="error" id="departmentError">Department is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="registerNumber">Register Number</label>
+                <input type="text" id="registerNumber" name="registerNumber" placeholder="Enter your register number">
+                <span class="error" id="registerNumberError">Register number is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <span class="error" id="emailError">Valid email is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                <span class="error" id="phoneError">Valid phone number is required (10 digits)</span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <span class="eye-icon" onclick="togglePasswordVisibility('password')">👁️</span>
+                </div>
+                <span class="error" id="passwordError">Password must be at least 6 characters</span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password">
+                    <span class="eye-icon" onclick="togglePasswordVisibility('confirmPassword')">👁️</span>
+                </div>
+                <span class="error" id="confirmPasswordError">Passwords do not match</span>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob">
+                <span class="error" id="dobError">Date of Birth is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <span class="error" id="genderError">Please select your gender</span>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address">
+                <span class="error" id="addressError">Address is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" placeholder="Enter your city">
+                <span class="error" id="cityError">City is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" placeholder="Enter your state">
+                <span class="error" id="stateError">State is required</span>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+        <div class="success-message" id="successMessage">Successfully Registered!</div>
+    </div>
+
+    <script>
+        // JavaScript for form validation
+        function validateForm() {
+            let isValid = true;
+
+            // Validation rules
+            const requiredFields = [
+                { id: 'university', errorId: 'universityError' },
+                { id: 'department', errorId: 'departmentError' },
+                { id: 'firstName', errorId: 'firstNameError' },
+                { id: 'lastName', errorId: 'lastNameError' },
+                { id: 'registerNumber', errorId: 'registerNumberError' },
+                { id: 'email', errorId: 'emailError', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+                { id: 'phone', errorId: 'phoneError', pattern: /^[0-9]{10}$/ },
+                { id: 'password', errorId: 'passwordError', minLength: 6 },
+                { id: 'confirmPassword', errorId: 'confirmPasswordError', match: 'password' },
+                { id: 'dob', errorId: 'dobError' },
+                { id: 'address', errorId: 'addressError' },
+                { id: 'city', errorId: 'cityError' },
+                { id: 'state', errorId: 'stateError' },
+                { id: 'gender', errorId: 'genderError' }
+            ];
+
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field.id);
+                const value = input.value;
+                let showError = false;
+
+                if (field.pattern && !field.pattern.test(value)) {
+                    showError = true;
+                } else if (field.minLength && value.length < field.minLength) {
+                    showError = true;
+                } else if (field.match && value !== document.getElementById(field.match).value) {
+                    showError = true;
+                } else if (value === "") {
+                    showError = true;
+                }
+
+                document.getElementById(field.errorId).style.display = showError ? "block" : "none";
+                input.classList.toggle("error-input", showError);
+                if (showError) isValid = false;
+            });
+
+            if (isValid) {
+                document.getElementById('successMessage').style.display = "block";
+                return false; // Prevent form submission to show success message
+            }
+
+            return isValid;
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility(inputId) {
+            const inputField = document.getElementById(inputId);
+            const inputType = inputField.getAttribute('type') === 'password' ? 'text' : 'password';
+            inputField.setAttribute('type', inputType);
+        }
+    </script>
+</body>
+</html>
